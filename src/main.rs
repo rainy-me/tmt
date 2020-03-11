@@ -88,7 +88,7 @@ fn main() {
    ██
  ",
     );
-    let mut minutes: usize = match args.len() {
+    let mut mins: usize = match args.len() {
         2 => match args[1].parse() {
             Ok(t) => t,
             _ => panic!(),
@@ -101,8 +101,8 @@ fn main() {
     loop {
         let mut clock = vec![String::new(); 7];
         for source_lines in [
-            &numbers[minutes / 10],
-            &numbers[minutes % 10],
+            &numbers[mins / 10],
+            &numbers[mins % 10],
             &colon,
             &numbers[secs / 10],
             &numbers[secs % 10],
@@ -118,9 +118,9 @@ fn main() {
         match secs {
             0 => {
                 secs = 59;
-                match minutes {
+                match mins {
                     0 => break,
-                    _ => minutes -= 1,
+                    _ => mins -= 1,
                 }
             }
             _ => {
