@@ -94,19 +94,6 @@ fn main() {
     let one_sec = Duration::from_secs(1);
 
     loop {
-        match secs {
-            0 => {
-                secs = 59;
-                match time {
-                    0 => break,
-                    _ => time -= 1,
-                }
-            }
-            _ => {
-                sleep(one_sec);
-                secs -= 1;
-            }
-        }
         let mut clock = vec![String::new(); 7];
         for c in [
             nums[time / 10],
@@ -122,7 +109,19 @@ fn main() {
                 line.push_str(&format!(" {:<8}", lines[i]));
             }
         }
-        print!("\x1B[2J");
-        println!("{:}", clock.join("\n"));
+        print!("\x1B[2J{}", clock.join("\n"));
+        sleep(one_sec);
+        match secs {
+            0 => {
+                secs = 59;
+                match time {
+                    0 => break,
+                    _ => time -= 1,
+                }
+            }
+            _ => {
+                secs -= 1;
+            }
+        }
     }
 }
