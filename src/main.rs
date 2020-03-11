@@ -4,7 +4,7 @@ use std::time::Duration;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let nums: Vec<Vec<String>> = [
+    let numbers: Vec<Vec<String>> = [
         "
 ███████
 ██   ██
@@ -88,7 +88,7 @@ fn main() {
    ██
  ",
     );
-    let mut time: usize = match args.len() {
+    let mut minutes: usize = match args.len() {
         2 => match args[1].parse() {
             Ok(t) => t,
             _ => panic!(),
@@ -101,16 +101,16 @@ fn main() {
     loop {
         let mut clock = vec![String::new(); 7];
         for source_lines in [
-            &nums[time / 10],
-            &nums[time % 10],
+            &numbers[minutes / 10],
+            &numbers[minutes % 10],
             &colon,
-            &nums[secs / 10],
-            &nums[secs % 10],
+            &numbers[secs / 10],
+            &numbers[secs % 10],
         ]
         .iter()
         {
-            for (i, line) in clock.iter_mut().enumerate() {
-                line.push_str(&source_lines[i]);
+            for (i, clock_line) in clock.iter_mut().enumerate() {
+                clock_line.push_str(&source_lines[i]);
             }
         }
         print!("\x1B[2J{}", clock.join("\n"));
@@ -118,9 +118,9 @@ fn main() {
         match secs {
             0 => {
                 secs = 59;
-                match time {
+                match minutes {
                     0 => break,
-                    _ => time -= 1,
+                    _ => minutes -= 1,
                 }
             }
             _ => {
@@ -130,8 +130,9 @@ fn main() {
     }
 }
 
-fn transform_to_lines(line: &str) -> Vec<String> {
-    line.split("\n")
+fn transform_to_lines(character: &str) -> Vec<String> {
+    character
+        .split("\n")
         .collect::<Vec<&str>>()
         .iter()
         .map(|line| format!(" {:<8}", line))
